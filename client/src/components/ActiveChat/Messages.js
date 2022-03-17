@@ -20,7 +20,7 @@ const Messages = (props) => {
             otherUser={otherUser}
           />
         );
-      }).sort((messageA, messageB) => moment(messageA.createdAt).unix() > moment(messageB.createdAt).unix())}
+      }).sort((messageA, messageB) => moment(messageA.createdAt).unix() - moment(messageB.createdAt).unix())}
     </Box>
   );
 };
