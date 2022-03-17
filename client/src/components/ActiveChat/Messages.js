@@ -10,7 +10,6 @@ const Messages = (props) => {
     <Box>
       {messages.map((message) => {
         const time = moment(message.createdAt).format('h:mm');
-
         return message.senderId === userId ? (
           <SenderBubble key={message.id} text={message.text} time={time} />
         ) : (
@@ -21,7 +20,7 @@ const Messages = (props) => {
             otherUser={otherUser}
           />
         );
-      })}
+      }).sort((messageA, messageB) => moment(messageA.createdAt).unix() > moment(messageB.createdAt).unix())}
     </Box>
   );
 };
