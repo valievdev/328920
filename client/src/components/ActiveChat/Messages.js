@@ -9,7 +9,7 @@ const Messages = (props) => {
   return (
     <Box>
       {messages.sort((messageA, messageB) => {
-        return moment(messageA.createdAt).unix() - moment(messageB.createdAt).unix()
+        return moment(messageA.updatedAt).unix() - moment(messageB.updatedAt).unix()
       }).map((message) => {
         const time = moment(message.createdAt).format('h:mm');
         return message.senderId === userId ? (

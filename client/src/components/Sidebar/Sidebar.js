@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Search, Chat, CurrentUser } from './index';
+import moment from 'moment'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -26,7 +27,7 @@ const Sidebar = ({
   setActiveChat,
 }) => {
   const classes = useStyles();
-
+console.log(conversations)
   return (
     <Box className={classes.root}>
       <CurrentUser user={user} />
@@ -35,7 +36,11 @@ const Sidebar = ({
       {conversations
         .filter((conversation) =>
           conversation.otherUser.username.includes(searchTerm)
-        )
+        ).sort((conversationA, conversationB) => {
+          const latestAMessage = conversationA.messages.find(message => message.text === conversationA.latestMessageText)
+          const latestBMessage = conversationB.messages.find(message => message.text === conversationB.latestMessageText)
+          return moment(latestBMessage.updatedAt).unix() - moment(latestAMessage.updatedAt).unix()
+        })
         .map((conversation) => {
           return (
             <Chat
