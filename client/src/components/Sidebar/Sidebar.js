@@ -34,11 +34,12 @@ const Sidebar = ({
       <Search handleChange={handleChange} />
       {conversations
         .filter((conversation) =>
-          conversation.otherUser.username.includes(searchTerm)
+          conversation.otherUser.username.toUpperCase().includes(searchTerm.toUpperCase())
         ).sort((conversationA, conversationB) => {
           const latestAMessage = conversationA.messages.find(message => message.text === conversationA.latestMessageText)
           const latestBMessage = conversationB.messages.find(message => message.text === conversationB.latestMessageText)
-          return moment(latestBMessage.updatedAt).unix() - moment(latestAMessage.updatedAt).unix()
+          if (latestBMessage && latestAMessage) return moment(latestBMessage.updatedAt).unix() - moment(latestAMessage.updatedAt).unix()
+          return conversationA.otherUser.username.toUpperCase().indexOf(searchTerm.toUpperCase()) > conversationB.otherUser.username.toUpperCase().indexOf(searchTerm.toUpperCase())
         })
         .map((conversation) => {
           return (
