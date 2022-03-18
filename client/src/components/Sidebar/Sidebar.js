@@ -2,7 +2,6 @@ import React from 'react';
 import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Search, Chat, CurrentUser } from './index';
-import moment from 'moment'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -34,13 +33,8 @@ const Sidebar = ({
       <Search handleChange={handleChange} />
       {conversations
         .filter((conversation) =>
-          conversation.otherUser.username.toUpperCase().includes(searchTerm.toUpperCase())
-        ).sort((conversationA, conversationB) => {
-          const latestAMessage = conversationA.messages.find(message => message.text === conversationA.latestMessageText)
-          const latestBMessage = conversationB.messages.find(message => message.text === conversationB.latestMessageText)
-          if (latestBMessage && latestAMessage) return moment(latestBMessage.updatedAt).unix() - moment(latestAMessage.updatedAt).unix()
-          return conversationA.otherUser.username.toUpperCase().indexOf(searchTerm.toUpperCase()) > conversationB.otherUser.username.toUpperCase().indexOf(searchTerm.toUpperCase())
-        })
+          conversation.otherUser.username.includes(searchTerm)
+        )
         .map((conversation) => {
           return (
             <Chat
