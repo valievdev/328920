@@ -14,8 +14,13 @@ import { makeStyles } from "@material-ui/core/styles"
 import bgLanguage from "./img/bg-img.png"
 import chatBubble from "./img/bubble.svg"
 
-const useSidebarStyles = makeStyles({
-    aboutDiv: {
+const useSidebarStyles = makeStyles(theme => ({
+    mainWrapper: {
+        position: "relative",
+        width: "100%",
+        height: "100%",
+    },
+    main: {
       position: "absolute",
       top: "28%",
       display: "flex",
@@ -23,10 +28,16 @@ const useSidebarStyles = makeStyles({
       width: "100%",
       zIndex: 10,
     },
+    chatBubble: {
+        width: "5vw",
+        margin: "auto",
+        objectFit: "contain"
+    },
     aboutText: {
-      marginTop: '5%',
-      color: 'white',
-      fontSize: '1.8rem'
+      marginTop: "5%",
+      color: "white",
+      fontSize: "1.8rem",
+      textAlign: "center",
     },
     overlay : {
       position: "absolute",
@@ -34,14 +45,21 @@ const useSidebarStyles = makeStyles({
       left: "0",
       width: "100%",
       height: "100%",
+      backgroundColor: theme.palette.primary.overlay,
     },
-    image : {
+    bgImage : {
       width: "100%",
       height: "100%",
       objectFit: "cover"
     }
-  })
+    }))
   const useLoginStyles = makeStyles({
+    main : {
+        display: "flex", 
+        flexDirection: "row", 
+        boxSizing: "border-box",
+        height: "100vh",
+    },
     createAcc: {
       display: "flex", 
       flexDirection: "row",
@@ -86,18 +104,18 @@ const Welcome = ({
     }
 
     return (
-    <Box display="grid" height="100vh" sx={{display: "flex", flexDirection: "row", boxSizing: "border-box"}}>
+    <Box display="grid" className={loginStyles.main}>
     <Grid item sm={6} md={5} lg={5} xl={4} >
-      <Box sx={{position: "relative", display: {xs: "none", sm: "flex"}}} width="100%" height="100%">
-        <Box className={sidebarStyles.aboutDiv}>
-          <Box component="img" src={chatBubble} mx="auto" sx={{width: '5vw', objectFit: "contain"}}/>
-          <Typography variant="h6" component="h5" align="center" className={sidebarStyles.aboutText}>
+      <Box className={sidebarStyles.mainWrapper} sx={{display: {xs: "none", sm: "flex"}}}>
+        <Box className={sidebarStyles.main}>
+          <Box component="img" src={chatBubble} className={sidebarStyles.chatBubble}/>
+          <Typography variant="h6" component="h5" className={sidebarStyles.aboutText}>
             Converse with anyone<br/>with any language
           </Typography>
 
         </Box>
-        <Box sx={{bgcolor: "primary.overlay"}} className={sidebarStyles.overlay}/>
-        <Box component="img" src={bgLanguage} className={sidebarStyles.image} sx={{objectFit: "cover"}} width="inherit" height="100%"/>
+        <Box sx={{}} className={sidebarStyles.overlay}/>
+        <Box component="img" src={bgLanguage} className={sidebarStyles.bgImage} />
       </Box>
     </Grid>
     <Grid container item xs={12} sm={6} md={7} lg={7} xl={8} direction="column">
@@ -128,7 +146,7 @@ const Welcome = ({
                     <TextField
                     label={field.displayLabel}
                     aria-label={field.label}
-                    type={field.label === 'confirmPassword' ? 'password' : field.label}
+                    type={field.label === "confirmPassword" ? "password" : field.label}
                     name={field.label}
                     size="large"
                     InputProps={inputProps}
