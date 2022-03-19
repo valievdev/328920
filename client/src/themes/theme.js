@@ -19,8 +19,7 @@ export const theme = createTheme({
       border: "none",
       background: "none",
       cursor: "pointer",
-      padding: "1.8vh 2.5vw",
-      minWidth: "4vw",
+      padding: "1.8vh 1vw",
       textAlign: "center",
       color: "white",
       borderRadius: "4px"
@@ -54,7 +53,7 @@ export const theme = createTheme({
         borderRadius: 3
       },
       containedSizeSmall: {
-        padding: "0 2vw"
+        padding: "0 3.5vw"
       }
     }
 

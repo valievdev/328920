@@ -108,7 +108,7 @@ const Welcome = ({
         <Link href={leave.link} to={leave.link}>
             <Paper elevation={3}>
                 <Typography variant="button" component="button" color="primary">
-                    <Box px="2vw">
+                    <Box px="2vw" sx={{minWidth: "6vw"}}>
                        {leave.buttonText}
                     </Box>
                 </Typography>
