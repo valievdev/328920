@@ -7,7 +7,8 @@ import {
     FormControl,
     TextField,
     Paper,
-    InputAdornment
+    InputAdornment,
+    FormHelperText
   } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles"
 import bgLanguage from "./img/bg-img.png"
@@ -16,7 +17,7 @@ import chatBubble from "./img/bubble.svg"
 const useSidebarStyles = makeStyles({
     aboutDiv: {
       position: "absolute",
-      top: "30%",
+      top: "28%",
       display: "flex",
       flexDirection: "column",
       width: "100%",
@@ -45,7 +46,7 @@ const useSidebarStyles = makeStyles({
       display: "flex", 
       flexDirection: "row",
       width: "95%",
-      margin: "2vh 5% 0 auto",
+      margin: "3.5vh 5% 0 auto",
       alignItems: "center"
     },
     createAccText: {
@@ -63,12 +64,14 @@ const useSidebarStyles = makeStyles({
   })
 
 
-const Welcome = ({welcomeText, leave, fields, passwordHelper, confirmText, onFormSubmit}) => {
+const Welcome = ({
+    welcomeText, leave, fields, passwordHelper, confirmText, onFormSubmit, signup
+}) => {
     
     const sidebarStyles = useSidebarStyles();
     const loginStyles = useLoginStyles();
 
-    const checkNeedInputHelper = (label) => {
+    const checkNeedPasswordHelper = (label) => {
         if (label === "password" && passwordHelper) {
             return {
                 endAdornment: (
@@ -87,7 +90,7 @@ const Welcome = ({welcomeText, leave, fields, passwordHelper, confirmText, onFor
     <Grid item sm={6} md={5} lg={5} xl={4} >
       <Box sx={{position: "relative", display: {xs: "none", sm: "flex"}}} width="100%" height="100%">
         <Box className={sidebarStyles.aboutDiv}>
-          <Box component="img" src={chatBubble} />
+          <Box component="img" src={chatBubble} mx="auto" sx={{width: '5vw', objectFit: "contain"}}/>
           <Typography variant="h6" component="h5" align="center" className={sidebarStyles.aboutText}>
             Converse with anyone<br/>with any language
           </Typography>
@@ -102,33 +105,40 @@ const Welcome = ({welcomeText, leave, fields, passwordHelper, confirmText, onFor
         <Typography variant="subtitle1" className={loginStyles.createAccText}>
           {leave.promptText}
         </Typography>
-        <Link href="/register" to="/register">
-          <Paper elevation={3}>
-              <Typography variant="button" color="primary">
-                {leave.buttonText}
-              </Typography>
-          </Paper>
+        <Link href={leave.link} to={leave.link}>
+            <Paper elevation={3}>
+                <Typography variant="button" component="button" color="primary">
+                    <Box px="2vw">
+                       {leave.buttonText}
+                    </Box>
+                </Typography>
+            </Paper>
         </Link>
       </Box>
-      <Box mt={"20vh"} mx={"auto"} mb={"auto"} sx={{width: "40%"}}>
+      <Box mt={signup ? "12vh" : "17vh"} mx={"auto"} mb={"auto"} sx={{width: "50%"}}>
       <form onSubmit={onFormSubmit}>
         <Grid container justifyContent="center" direction="column">
           <Typography variant="h4" component="h1" align="left" className={loginStyles.welcomeText}>
             {welcomeText}
           </Typography>
         {fields.map((field, idx) => {
-        const inputProps = checkNeedInputHelper(field.label);
-        console.log(inputProps)
-          return <FormControl margin="normal" key={idx} required>
-            <TextField
-              label={field.displayLabel}
-              aria-label={field.label}
-              type={field.label}
-              name={field.label}
-              size="large"
-              InputProps={inputProps}
-            />
-          </FormControl>
+            const inputProps = checkNeedPasswordHelper(field.label);
+            return (
+                <FormControl margin="normal" key={idx} required error={field.formErrorMessage ? !!field.formErrorMessage.confirmPassword: null}>
+                    <TextField
+                    label={field.displayLabel}
+                    aria-label={field.label}
+                    type={field.label === 'confirmPassword' ? 'password' : field.label}
+                    name={field.label}
+                    size="large"
+                    InputProps={inputProps}
+                    />
+                    {field.formErrorMessage ? 
+                        <FormHelperText>
+                            {field.formErrorMessage.confirmPassword}
+                        </FormHelperText>: null}
+                </FormControl>
+            )
         })}
           <Box mt={"8vh"} display="flex">
             <Button type="submit" variant="contained" size="small" color="primary">
