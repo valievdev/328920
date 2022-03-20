@@ -181,7 +181,13 @@ const Home = ({ user, logout }) => {
     const fetchConversations = async () => {
       try {
         const { data } = await axios.get("/api/conversations");
-        setConversations(data);
+        setConversations(() => data.map((conversation) => {
+          const sortedMessages = conversation.messages.sort((messageA, messageB) => {
+            return new Date(messageA.updatedAt).getTime() - new Date(messageB.updatedAt).getTime()
+          })
+          return {...conversation, messages: sortedMessages}
+        })
+      )
       } catch (error) {
         console.error(error);
       }
