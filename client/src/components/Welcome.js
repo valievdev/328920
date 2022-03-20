@@ -22,22 +22,22 @@ const useSidebarStyles = makeStyles(theme => ({
     },
     main: {
       position: "absolute",
-      top: "5%",
-      [theme.breakpoints.up('sm')]: {
-        top: "28%",
-      },
+      top: "28%",
       display: "flex",
       flexDirection: "column",
       width: "100%",
       zIndex: 10,
+      [theme.breakpoints.down('sm')]: {
+        top: "5%",
+      },
     },
     chatBubble: {
+        width: "5vw",
+        margin: "auto",
+        objectFit: "contain",
         [theme.breakpoints.down('sm')]: {
             display: "none"
         },
-        width: "5vw",
-        margin: "auto",
-        objectFit: "contain"
     },
     aboutText: {
       color: "white",
@@ -50,7 +50,7 @@ const useSidebarStyles = makeStyles(theme => ({
       left: "0",
       width: "100%",
       height: "100%",
-      backgroundColor: theme.palette.primary.overlay,
+      background: `linear-gradient(to top, ${theme.palette.primary.overlayGradientStart}, ${theme.palette.primary.overlayGradientEnd})`,
     },
     bgImage : {
       width: "100%",
@@ -64,13 +64,13 @@ const useSidebarStyles = makeStyles(theme => ({
   const useWelcomeStyles = makeStyles(theme => ({
     main : {
         display: "flex", 
-        flexDirection: "column",
+        flexDirection: "row",
         boxSizing: "border-box",
-        maxHeight: "90vh",
+        minHeight: "100vh",
         overflow: "hidden",
-        [theme.breakpoints.up('sm')]: {
-            flexDirection: "row",
-            minHeight: "100vh"
+        [theme.breakpoints.down('sm')]: {
+            flexDirection: "column",
+            maxHeight: "90vh",
         },
     },
     createAcc: {
@@ -124,7 +124,7 @@ const Welcome = ({
 
     return (
     <Box display={{sm: "grid"}} sx={{flexDirection: {xs: "column", sm: "column"}}} className={welcomeStyles.main}>
-      <Box display="grid" item sx={{width: {xs: "100%", sm: "50%", md: "41%"}, height: {xs: signup? "20vh": "25vh", sm: "100%"}}}>
+      <Box display="grid" item sx={{width: {xs: "100%", sm: "50%", md: "41%"}, height: {xs: signup? "20vh": "25vh", sm: "inherit"}}}>
         <Box className={sidebarStyles.mainWrapper} sx={{display: "flex"}}>
 
           <Box className={sidebarStyles.main} sx={{marginTop: {xs: signup ? "5%": "10%", sm: "5%"}}}>
@@ -153,7 +153,7 @@ const Welcome = ({
           <Link href={leave.link} to={leave.link}>
               <Paper elevation={3}>
                   <Typography variant="button" component="button" color="primary">
-                      <Box px="2vw" py={{sm:"1.3vh"}} sx={{minWidth: "6vw"}}>
+                      <Box px="2vw" py={{sm:"1.3vh"}} sx={{minWidth: "7vw"}}>
                         {leave.buttonText}
                       </Box>
                   </Typography>

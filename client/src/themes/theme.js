@@ -13,7 +13,7 @@ export const theme = createTheme({
       textTransform: "none",
       letterSpacing: 0,
       fontWeight: "600",
-      fontSize: "1.05rem",
+      fontSize: "1rem",
       margin: "auto",
       display: "inline-block",
       border: "none",
@@ -59,7 +59,11 @@ export const theme = createTheme({
 
   },
   palette: {
-    primary: { main: "#3A8DFF", overlay: alpha("#5BA0FF", 0.85) }, 
+    primary: { 
+      main: "#3A8DFF",
+      overlayGradientStart: alpha("#70A7F4", 0.85),
+      overlayGradientEnd: alpha("#2C7AE4", 0.85)
+    }, 
     secondary: { main: "#B0B0B0" },
   },
   breakpoints: {

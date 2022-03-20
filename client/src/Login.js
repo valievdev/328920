@@ -20,7 +20,7 @@ const Login = ({ user, login }) => {
   }, [user, history]);
 
   return (
-    <Welcome welcomeText="Welcome Back!" 
+    <Welcome welcomeText="Welcome back!" 
     leave={{promptText: "Don't have an account?", buttonText: "Create Account", link: "/register"}}
       fields={[
         {label: "username", displayLabel: "Username"},
