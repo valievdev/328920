@@ -143,7 +143,7 @@ const Welcome = ({
         flexDirection: {xs: "column-reverse", sm: "column"}}}
         >
         <Box className={welcomeStyles.createAcc} sx={{
-          margin: {xs: signup? "5vh auto" : "15vh auto" ,sm: "3vh 5% 0 auto"}}}
+          margin: {xs: signup? "5vh auto" : "16vh auto" ,sm: "3vh 5% 0 auto"}}}
           >
 
           <Typography variant="subtitle1" className={welcomeStyles.createAccText}>
@@ -161,7 +161,7 @@ const Welcome = ({
           </Link>
 
         </Box>
-        <Box mt={{xs: signup ? "3vh": "6vh", sm: signup ? "12vh" : "17vh"}} mx={"auto"} mb={"auto"} sx={{width: {xs: "85%", sm: "80%", md: "70%", lg: "50%"}}}>
+        <Box mt={{xs: signup ? "3vh": "7vh", sm: signup ? "12vh" : "17vh"}} mx={"auto"} mb={"auto"} sx={{width: {xs: "85%", sm: "80%", md: "70%", lg: "50%"}}}>
           <form onSubmit={onFormSubmit}>
             <Grid container justifyContent="center" direction="column">
 
