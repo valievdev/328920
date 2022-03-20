@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import Welcome from './components/Welcome';
+import Welcome from './components/Welcome/Welcome';
 
 const Signup = ({ user, register }) => {
   const history = useHistory();
@@ -29,15 +29,21 @@ const Signup = ({ user, register }) => {
 
   return (
     <Welcome welcomeText="Create an account."
-    leave={{promptText: "Already have an account?", buttonText: "Login", link: "/login"}}
-    fields={[
-      {label: "username", displayLabel: "Username"},
-      {label: "email", displayLabel: "E-mail address"},
-      {label: "password", displayLabel: "Password", formErrorMessage: formErrorMessage},
-      {label: "confirmPassword", displayLabel: "Confirm Password", formErrorMessage: formErrorMessage}
-    ]} confirmText="Create"
-    signup={true} onFormSubmit={handleRegister}
-    />
+      leave={{
+        promptText: "Already have an account?",
+        buttonText: "Login",
+        link: "/login"
+      }}
+      fields={[
+        {label: "username", displayLabel: "Username"},
+        {label: "email", displayLabel: "E-mail address"},
+        {label: "password", displayLabel: "Password", formErrorMessage: formErrorMessage},
+        {label: "confirmPassword", displayLabel: "Confirm Password", formErrorMessage: formErrorMessage}
+      ]} 
+      confirmText="Create"
+      isSignup={true}
+      onFormSubmit={handleRegister}
+      />
   );
 };
 

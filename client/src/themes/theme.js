@@ -40,9 +40,6 @@ export const theme = createTheme({
         }
       }
     },
-    MuiInputBase: {
-      borderBottomWidth: "0.5px",
-    },
     MuiPaper: {
       elevation3 : {
         boxShadow: "-1px 5px 3px -2px rgba(0, 0, 0, 0.05),0px 3px 4px 0px rgba(0,0,0,0.05),0px 1px 8px 0px rgba(0,0,0,0.05)",
