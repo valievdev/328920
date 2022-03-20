@@ -5,6 +5,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+/* Work with notch in landscape */
+@supports(padding:max(0px)) {
+  body {
+      padding-left: min(5vmin, env(safe-area-inset-left));
+      padding-right: min(0vmin, env(safe-area-inset-right));
+  }
+}
+
 a {
   text-decoration: none;
 }

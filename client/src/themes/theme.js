@@ -19,7 +19,7 @@ export const theme = createTheme({
       border: "none",
       background: "none",
       cursor: "pointer",
-      padding: "1.8vh 1vw",
+      padding: "0.5vh 1vw",
       textAlign: "center",
       color: "white",
       borderRadius: "4px"

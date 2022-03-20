@@ -18,17 +18,27 @@ const useSidebarStyles = makeStyles(theme => ({
     mainWrapper: {
         position: "relative",
         width: "100%",
-        height: "100%",
+        height: "20vh",
+        overflow: "hidden",
+        [theme.breakpoints.up('sm')]: {
+            height: "100%",
+        }
     },
     main: {
       position: "absolute",
-      top: "28%",
+      top: "5%",
+      [theme.breakpoints.up('sm')]: {
+        top: "28%",
+      },
       display: "flex",
       flexDirection: "column",
       width: "100%",
       zIndex: 10,
     },
     chatBubble: {
+        [theme.breakpoints.down('sm')]: {
+            display: "none",
+        },
         width: "5vw",
         margin: "auto",
         objectFit: "contain"
@@ -50,22 +60,33 @@ const useSidebarStyles = makeStyles(theme => ({
     bgImage : {
       width: "100%",
       height: "100%",
-      objectFit: "cover"
-    }
+      objectFit: "cover",
+      [theme.breakpoints.down('sm')]: {
+        objectPosition: "0 10%",
+      },
+    },
     }))
-  const useLoginStyles = makeStyles({
+  const useLoginStyles = makeStyles(theme => ({
     main : {
         display: "flex", 
-        flexDirection: "row", 
+        flexDirection: "column",
         boxSizing: "border-box",
-        height: "100vh",
+        height: "90vh",
+        [theme.breakpoints.up('sm')]: {
+            flexDirection: "row",
+            height: "100vh"
+        },
     },
     createAcc: {
       display: "flex", 
       flexDirection: "row",
       width: "95%",
-      margin: "3.5vh 5% 0 auto",
-      alignItems: "center"
+      height: "10vh",
+      alignItems: "center",
+      [theme.breakpoints.down('sm')]: {
+        height: "auto",
+        width: "auto",
+      }
     },
     createAccText: {
       marginRight: "4vw",
@@ -74,12 +95,15 @@ const useSidebarStyles = makeStyles(theme => ({
     paper: {
       minWidth: "13vw",
       width: "fit-content",
-      display: "flex"
+      display: "flex",
     },
     welcomeText: {
-      margin: "0 auto 0 0"
+      margin: "0 auto 0 0",
+      [theme.breakpoints.down("sm")]: {
+          margin: "0 auto",
+      },
     }
-  })
+  }))
 
 
 const Welcome = ({
@@ -104,9 +128,9 @@ const Welcome = ({
     }
 
     return (
-    <Box display="grid" className={loginStyles.main}>
-    <Grid item sm={6} md={5} lg={5} xl={4} >
-      <Box className={sidebarStyles.mainWrapper} sx={{display: {xs: "none", sm: "flex"}}}>
+    <Box display={{sm: "grid"}} sx={{flexDirection: {xs: "column", sm: "column"}}} className={loginStyles.main}>
+    <Box display="grid" item sx={{width: {xs: "100%", sm: "50%", md: "41%"}}}>
+      <Box className={sidebarStyles.mainWrapper} sx={{display: "flex"}}>
         <Box className={sidebarStyles.main}>
           <Box component="img" src={chatBubble} className={sidebarStyles.chatBubble}/>
           <Typography variant="h6" component="h5" className={sidebarStyles.aboutText}>
@@ -117,26 +141,26 @@ const Welcome = ({
         <Box sx={{}} className={sidebarStyles.overlay}/>
         <Box component="img" src={bgLanguage} className={sidebarStyles.bgImage} />
       </Box>
-    </Grid>
-    <Grid container item xs={12} sm={6} md={7} lg={7} xl={8} direction="column">
-      <Box className={loginStyles.createAcc}>
+    </Box>
+    <Box display="flex" container item sx={{width: {xs: "100%", sm: "50%", md: "59%"}, flexDirection: {xs: "column-reverse", sm: "column"}}}>
+      <Box className={loginStyles.createAcc} sx={{margin: {xs: signup? "5vh auto" : "20vh auto" ,sm: "3vh 5% 0 auto"}}}>
         <Typography variant="subtitle1" className={loginStyles.createAccText}>
           {leave.promptText}
         </Typography>
         <Link href={leave.link} to={leave.link}>
             <Paper elevation={3}>
                 <Typography variant="button" component="button" color="primary">
-                    <Box px="2vw" sx={{minWidth: "6vw"}}>
+                    <Box px="2vw" py={{sm:"1.3vh"}} sx={{minWidth: "6vw"}}>
                        {leave.buttonText}
                     </Box>
                 </Typography>
             </Paper>
         </Link>
       </Box>
-      <Box mt={signup ? "12vh" : "17vh"} mx={"auto"} mb={"auto"} sx={{width: "50%"}}>
+      <Box mt={{xs: signup ? "3vh": "6vh", sm: signup ? "12vh" : "17vh"}} mx={"auto"} mb={"auto"} sx={{width: {xs: "85%", sm: "80%", md: "70%", lg: "50%"}}}>
       <form onSubmit={onFormSubmit}>
         <Grid container justifyContent="center" direction="column">
-          <Typography variant="h4" component="h1" align="left" className={loginStyles.welcomeText}>
+          <Typography variant="h4" component="h1" className={loginStyles.welcomeText}>
             {welcomeText}
           </Typography>
         {fields.map((field, idx) => {
@@ -158,7 +182,7 @@ const Welcome = ({
                 </FormControl>
             )
         })}
-          <Box mt={"8vh"} display="flex">
+          <Box mt={{xs: "4vh", sm: "8vh"}} display="flex">
             <Button type="submit" variant="contained" size="small" color="primary">
               <Typography variant="button" >
                 <Box fontWeight={700}> 
@@ -170,7 +194,7 @@ const Welcome = ({
         </Grid>
       </form>
       </Box>
-    </Grid>
+    </Box>
   </Box>
     )
 }
