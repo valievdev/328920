@@ -26,8 +26,11 @@ describe("Bug Fix: Sending Messages", () => {
     cy.contains("Bob").click();
 
     cy.get("input[name=text]").type("First message{enter}");
+    cy.wait(300);
     cy.get("input[name=text]").type("Second message{enter}");
+    cy.wait(300);
     cy.get("input[name=text]").type("Third message{enter}");
+    cy.wait(300);
 
     cy.contains("First message");
     cy.contains("Second message");
@@ -60,8 +63,11 @@ describe("Bug Fix: Sending Messages", () => {
     cy.contains("Bob").click();
 
     cy.get("input[name=text]").type("Fourth message{enter}");
+    cy.wait(300);
     cy.get("input[name=text]").type("Fifth message{enter}");
+    cy.wait(300);
     cy.get("input[name=text]").type("Sixth message{enter}");
+    cy.wait(300);
 
     cy.contains("Fourth message");
     cy.contains("Fifth message");
