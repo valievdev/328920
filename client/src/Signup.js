@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import Welcome from './Welcome';
+import Welcome from './components/Welcome';
 
 const Signup = ({ user, register }) => {
   const history = useHistory();
