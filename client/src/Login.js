@@ -21,7 +21,11 @@ const Login = ({ user, login }) => {
 
   return (
     <AuthWrapper welcomeText="Welcome back!" 
-    leave={{promptText: "Don't have an account?", buttonText: "Create Account", link: "/register"}}
+    redirectPrompt={{
+      text: "Don't have an account?",
+      buttonText: "Create Account",
+      link: "/register"
+    }}
       fields={[
         {label: "username", displayLabel: "Username"},
         {label: "password", displayLabel: "Password"}

@@ -1,12 +1,10 @@
-import { Link } from "react-router-dom"
 import {
     Box,
-    Typography,
-    Paper,
   } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles"
 import Sidebar from "./Sidebar";
 import Form from "./Form";
+import Redirect from "./Redirect";
 
 const useAuthStyles = makeStyles(theme => ({
   mainWrapper : {
@@ -29,54 +27,6 @@ const useAuthStyles = makeStyles(theme => ({
       flexDirection: "column-reverse",
     },
   },
-  redirectWrapper: {
-    display: "flex", 
-    flexDirection: "row",
-    width: "fit-content",
-    height: "10vh",
-    margin: "3vh 5% 0 auto",
-    alignItems: "center",
-    [theme.breakpoints.down('sm')]: {
-      margin: "3vh auto 0 auto",
-    },
-    [theme.breakpoints.down('xs')]: {
-      margin: (props) => 
-      props.isSignup ?
-        "5vh auto"
-      :
-        "auto auto 2vh"
-    },
-    [theme.breakpoints.down('xs')]: {
-      height: "auto",
-      width: "auto",
-      paddingTop: "5vh",
-      margin: (props) => 
-        props.isSignup ?
-          "auto auto 3vh"
-        :
-          "auto auto 3vh"
-    },
-  },
-  redirectText: {
-    fontSize: "0.9rem",
-    marginRight: "2vw",
-    marginLeft: "auto",
-  },
-  redirectButton: {
-    padding: "1.8vh 2vw",
-    minWidth: "4.25vw",
-    fontSize: "0.9rem",
-    [theme.breakpoints.down('md')]: {
-      padding: "1.8vh 2.6vw",
-      minWidth: "6.75vw", 
-    },
-    [theme.breakpoints.down('sm')]: {
-      padding: "1vh 5vw"
-    },
-    [theme.breakpoints.down('xs')]: {
-      padding: "0.5vh 2.5vw"
-    },
-  }, 
   formWrapper : {
     width: "50%",
     margin: "auto",
@@ -108,7 +58,7 @@ const useAuthStyles = makeStyles(theme => ({
 
 const AuthWrapper = ({
     welcomeText,
-    leave,
+    redirectPrompt,
     fields,
     passwordHelper,
     confirmText,
@@ -121,28 +71,13 @@ const AuthWrapper = ({
     return (
       <Box className={authStyles.mainWrapper}>
 
-        <Sidebar isSignUp={isSignup}/>
+        <Sidebar isSignUp={isSignup} />
 
         <Box className={authStyles.main}>
-          <Box className={authStyles.redirectWrapper}>
 
-            <Typography variant="subtitle1" className={authStyles.redirectText}>
-              {leave.promptText}
-            </Typography>
+          <Redirect prompt={redirectPrompt} />
 
-            <Link href={leave.link} to={leave.link}>
-                <Paper elevation={3}>
-                    <Typography variant="button" component="button" color="primary">
-                        <Box className={authStyles.redirectButton} >
-                          {leave.buttonText}
-                        </Box>
-                    </Typography>
-                </Paper>
-            </Link>
-
-          </Box>
           <Box className={authStyles.formWrapper}>
-
               <Form 
                 passwordHelper={passwordHelper}
                 welcomeText={welcomeText}
@@ -150,7 +85,6 @@ const AuthWrapper = ({
                 fields={fields}
                 onFormSubmit={onFormSubmit}
                 />
-
           </Box>
         </Box>
       </Box>

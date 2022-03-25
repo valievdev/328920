@@ -29,8 +29,8 @@ const Signup = ({ user, register }) => {
 
   return (
     <AuthWrapper welcomeText="Create an account."
-      leave={{
-        promptText: "Already have an account?",
+      redirectPrompt={{
+        text: "Already have an account?",
         buttonText: "Login",
         link: "/login"
       }}
