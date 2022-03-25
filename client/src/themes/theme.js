@@ -6,8 +6,8 @@ export const theme = createTheme({
     fontFamily: "Open Sans, sans-serif",
     fontSize: 14,
     h4: {
+      fontSize: "1.6rem",
       fontWeight: "600",
-      fontSize: "1.8rem",
     },
     button: {
       textTransform: "none",
@@ -30,6 +30,11 @@ export const theme = createTheme({
     },
   },
   overrides: {
+    MuiFormControl: {
+      marginNormal: {
+        marginTop: "1.75vw",
+      },
+    },
     MuiInput: {
       input: {
         fontWeight: "bold",
@@ -39,6 +44,22 @@ export const theme = createTheme({
           borderBottomColor: "#D5DFED" 
         }
       }
+    },
+    MuiInputLabel: {
+      shrink: {
+        transform: "translate(0, -0.4vw) scale(1)",
+        color: "#B0B0B0",
+        fontSize: "0.85rem",
+      },
+    },
+    MuiInputAdornment: {
+      root: {
+        fontSize: "0.8rem",
+        fontWeight: 600,
+      },
+      positionStart: {
+        margin: "0.5rem 0 0.3rem 1rem"
+      },
     },
     MuiPaper: {
       elevation3 : {
@@ -50,7 +71,7 @@ export const theme = createTheme({
         borderRadius: 3
       },
       containedSizeSmall: {
-        padding: "0 3.5vw"
+        padding: "0 3vw"
       }
     }
 

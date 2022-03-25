@@ -23,17 +23,10 @@ const useAuthStyles = makeStyles(theme => ({
   main: {
     display: "flex",
     flexDirection: "column",
-    width: "59%",
-    [theme.breakpoints.down('md')]: {
-      width: "50%",
-    },
+    width: "auto",
+    flexGrow: 1,
     [theme.breakpoints.down('sm')]: {
-      width: "60%",
       flexDirection: "column-reverse",
-    },
-    [theme.breakpoints.down('xs')]: {
-      flexDirection: "column-reverse",
-      width: "100%"
     },
   },
   redirectWrapper: {
@@ -56,25 +49,32 @@ const useAuthStyles = makeStyles(theme => ({
     [theme.breakpoints.down('xs')]: {
       height: "auto",
       width: "auto",
+      paddingTop: "5vh",
       margin: (props) => 
         props.isSignup ?
-          "4vh auto 0"
+          "auto auto 3vh"
         :
-          "22vh auto 2vh"
+          "auto auto 3vh"
     },
   },
   redirectText: {
+    fontSize: "0.9rem",
     marginRight: "2vw",
     marginLeft: "auto",
   },
   redirectButton: {
     padding: "1.8vh 2vw",
-    minWidth: "7vw",
+    minWidth: "4.25vw",
+    fontSize: "0.9rem",
+    [theme.breakpoints.down('md')]: {
+      padding: "1.8vh 2.6vw",
+      minWidth: "6.75vw", 
+    },
     [theme.breakpoints.down('sm')]: {
       padding: "1vh 5vw"
     },
     [theme.breakpoints.down('xs')]: {
-      padding: "0.5vh 4vw"
+      padding: "0.5vh 2.5vw"
     },
   }, 
   formWrapper : {
@@ -86,10 +86,10 @@ const useAuthStyles = makeStyles(theme => ({
       : 
         "17vh",
     [theme.breakpoints.down('lg')]: {
-      width: "70%",
+      width: "60%",
     },
     [theme.breakpoints.down('md')]: {
-      width: "80%",
+      width: "70%",
     },
     [theme.breakpoints.down('sm')]: {
       width: "85%",

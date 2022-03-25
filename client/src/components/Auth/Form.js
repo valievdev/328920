@@ -12,7 +12,7 @@ import { makeStyles } from "@material-ui/core/styles"
 
 const useFormStyles = makeStyles(theme => ({
     welcomeText: {
-        margin: "0 auto 0 0",
+        margin: "0 auto 1.5vh 0",
         [theme.breakpoints.down("sm")]: {
             margin: "0 auto",
         },
@@ -25,10 +25,11 @@ const useFormStyles = makeStyles(theme => ({
     },
     submitButton: {
         fontWeight: 700,
-        [theme.breakpoints.up('sm')]: {
-            padding: "1.5vh 0"
-        }
-    }
+        padding: "1.5vh 0",
+        [theme.breakpoints.down("xs")]: {
+            padding: "0.6vh 1vw",
+        },
+    },
 }))
 
 const checkNeedPasswordHelper = (label, passwordHelper) => {
@@ -36,7 +37,7 @@ const checkNeedPasswordHelper = (label, passwordHelper) => {
         return {
             endAdornment: (
                 <InputAdornment position="start">
-                    <Box ml={2} mt={.5} color="primary.main" fontSize={"0.8rem"} fontWeight={600}>
+                    <Box color="primary.main">
                         {passwordHelper}
                     </Box>
                 </InputAdornment>

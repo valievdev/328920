@@ -9,9 +9,12 @@ const useSidebarStyles = makeStyles(theme => ({
         display: "flex",
         overflow: "hidden",
         height: "inherit",
-        width: "41%",
+        width: "34%",
         [theme.breakpoints.down('md')]: {
-            width: "50%",
+            width: "40%",
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: "45%",
         },
         [theme.breakpoints.down('xs')]: {
             width: "100%",
@@ -33,12 +36,10 @@ const useSidebarStyles = makeStyles(theme => ({
             marginTop: "5%",
         },
         [theme.breakpoints.down('xs')]: {
-            top: "5%",
-            marginTop: (props) => 
-                props.isSignup ? 
-                    "3vh"
-                :
-                    "4.5vh"
+            width: "100%",
+            height: "100%",
+            top: 0,
+            margin: 0,
         },
     },
     chatBubble: {
@@ -55,8 +56,13 @@ const useSidebarStyles = makeStyles(theme => ({
     },
     aboutText: {
         color: "white",
-        fontSize: "1.8rem",
+        fontSize: "1.6rem",
         textAlign: "center",
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "1.4rem",
+            lineHeight: "1.8rem",
+            margin: "auto 0"
+        }
     },
     overlay : {
         position: "absolute",
@@ -74,6 +80,9 @@ const useSidebarStyles = makeStyles(theme => ({
         height: "100%",
         objectFit: "cover",
         [theme.breakpoints.down('sm')]: {
+            objectPosition: "35% 0"
+        },
+        [theme.breakpoints.down('xs')]: {
             objectPosition: "0 10%",
         },
     },
