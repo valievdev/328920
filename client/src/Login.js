@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import Welcome from "./components/Welcome/Welcome";
+import AuthWrapper from "./components/Auth/AuthWrapper";
 
 const Login = ({ user, login }) => {
   const history = useHistory();
@@ -20,7 +20,7 @@ const Login = ({ user, login }) => {
   }, [user, history]);
 
   return (
-    <Welcome welcomeText="Welcome back!" 
+    <AuthWrapper welcomeText="Welcome back!" 
     leave={{promptText: "Don't have an account?", buttonText: "Create Account", link: "/register"}}
       fields={[
         {label: "username", displayLabel: "Username"},

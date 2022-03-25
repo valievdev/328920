@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import Welcome from './components/Welcome/Welcome';
+import AuthWrapper from "./components/Auth/AuthWrapper";
 
 const Signup = ({ user, register }) => {
   const history = useHistory();
@@ -28,7 +28,7 @@ const Signup = ({ user, register }) => {
   }, [user, history]);
 
   return (
-    <Welcome welcomeText="Create an account."
+    <AuthWrapper welcomeText="Create an account."
       leave={{
         promptText: "Already have an account?",
         buttonText: "Login",

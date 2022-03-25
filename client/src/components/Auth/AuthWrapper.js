@@ -8,7 +8,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import Sidebar from "./Sidebar";
 import Form from "./Form";
 
-const useWelcomeStyles = makeStyles(theme => ({
+const useAuthStyles = makeStyles(theme => ({
   mainWrapper : {
     display: "flex", 
     flexDirection: "row",
@@ -106,7 +106,7 @@ const useWelcomeStyles = makeStyles(theme => ({
   },
 }))
 
-const Welcome = ({
+const AuthWrapper = ({
     welcomeText,
     leave,
     fields,
@@ -116,24 +116,24 @@ const Welcome = ({
     isSignup
 }) => {
     
-    const welcomeStyles = useWelcomeStyles({isSignup});
+    const authStyles = useAuthStyles({isSignup});
 
     return (
-      <Box className={welcomeStyles.mainWrapper}>
+      <Box className={authStyles.mainWrapper}>
 
         <Sidebar isSignUp={isSignup}/>
 
-        <Box className={welcomeStyles.main}>
-          <Box className={welcomeStyles.redirectWrapper}>
+        <Box className={authStyles.main}>
+          <Box className={authStyles.redirectWrapper}>
 
-            <Typography variant="subtitle1" className={welcomeStyles.redirectText}>
+            <Typography variant="subtitle1" className={authStyles.redirectText}>
               {leave.promptText}
             </Typography>
 
             <Link href={leave.link} to={leave.link}>
                 <Paper elevation={3}>
                     <Typography variant="button" component="button" color="primary">
-                        <Box className={welcomeStyles.redirectButton} >
+                        <Box className={authStyles.redirectButton} >
                           {leave.buttonText}
                         </Box>
                     </Typography>
@@ -141,7 +141,7 @@ const Welcome = ({
             </Link>
 
           </Box>
-          <Box className={welcomeStyles.formWrapper}>
+          <Box className={authStyles.formWrapper}>
 
               <Form 
                 passwordHelper={passwordHelper}
@@ -157,4 +157,4 @@ const Welcome = ({
     )
 }
 
-export default Welcome;
+export default AuthWrapper;
