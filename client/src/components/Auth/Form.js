@@ -81,11 +81,11 @@ const Form = ({
                                 size="medium"
                                 InputProps={inputProps}
                                 />
-                            {field.formErrorMessage ? 
+                            {field.formErrorMessage &&
                                 <FormHelperText>
                                     {field.formErrorMessage.confirmPassword}
                                 </FormHelperText>
-                            : null}
+                            }
 
                         </FormControl>
                     )
