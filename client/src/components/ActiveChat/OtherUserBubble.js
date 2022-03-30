@@ -78,6 +78,7 @@ const OtherUserBubble = ({ text, attachments, time, otherUser }) => {
                 key={key}
                 url={attachment}
                 withMessage={text.length > 0 && true} 
+                attachmentLen={attachmentLen}
                 />
             )}
           </Box>
