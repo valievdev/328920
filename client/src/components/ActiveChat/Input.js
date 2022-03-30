@@ -13,8 +13,11 @@ const useStyles = makeStyles(() => ({
     backgroundColor: '#F4F6FA',
     borderRadius: 8,
     marginBottom: 20,
-    '&:hover .inputIcons': {
-      color: "#8A8A8A"
+    "&:hover .inputIcons": {
+      color: "#8A8A8A",
+    },
+    "&:focus-within .inputIcons": {
+      color: "#8A8A8A",
     },
   },
   inputIcons: {
