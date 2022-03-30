@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { FormControl, FilledInput } from '@material-ui/core';
+import { Box, FormControl, FilledInput, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -12,7 +13,14 @@ const useStyles = makeStyles(() => ({
     backgroundColor: '#F4F6FA',
     borderRadius: 8,
     marginBottom: 20,
+    '&:hover .inputIcons': {
+      color: "#8A8A8A"
+    },
   },
+  inputIcons: {
+    marginRight: 8,
+    color: "#CAD5E3",
+  }
 }));
 
 const Input = ({ otherUser, conversationId, user, postMessage }) => {
@@ -48,6 +56,13 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
           value={text}
           name="text"
           onChange={handleChange}
+          endAdornment={
+            <Box classes={{ root: classes.inputIcons }} className="inputIcons">
+              <InputAdornment position="end">
+                <FileCopyOutlinedIcon />
+              </InputAdornment>
+            </Box>
+          }
         />
       </FormControl>
     </form>
