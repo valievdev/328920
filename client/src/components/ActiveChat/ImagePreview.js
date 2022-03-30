@@ -10,6 +10,7 @@ const useStyles = makeStyles(() => ({
 			width: "8vw",
 			height: "auto",
 			objectFit: "contain",
+			borderRadius: 10
 		},
 	},
 }));
