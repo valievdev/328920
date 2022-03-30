@@ -2,9 +2,9 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
 		root : {
-			maxWidth: "12vw",
-			maxHeight: "12vw",
-			objectFit: "contain",
+			width: "12vw",
+			height: "10vw",
+			objectFit: "cover",
 			borderRadius: props => props.borderRadius
 		},
 }));
