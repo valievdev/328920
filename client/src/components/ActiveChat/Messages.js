@@ -8,13 +8,20 @@ const Messages = (props) => {
   return (
     <Box>
       {messages.map((message) => {
+        console.log(message);
         const time = new Date(message.createdAt).toLocaleTimeString('en-us', {timeStyle: 'short'});
         return message.senderId === userId ? (
-          <SenderBubble key={message.id} text={message.text} time={time} />
+          <SenderBubble 
+            key={message.id}
+            text={message.text}
+            attachments={message.attachments}
+            time={time}
+          />
         ) : (
           <OtherUserBubble
             key={message.id}
             text={message.text}
+            attachments={message.attachments}
             time={time}
             otherUser={otherUser}
           />
