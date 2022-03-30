@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box, IconButton, FormControl, FilledInput, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
+import ImagePreview from './ImagePreview';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -36,8 +37,8 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
   };
 
   const handleUploadImage = (event) => {
-    const image = event.target.files[0];
-    setImages(prevImages => [...prevImages, image]);
+    const images = event.target.files;
+    setImages(prevImages => [...prevImages, ...images]);
   }
 
   const handleSubmit = async (event) => {
@@ -57,6 +58,7 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
 
   return (
     <form className={classes.root} onSubmit={handleSubmit}>
+      {images.length > 0 && <ImagePreview images={images} />}
       <FormControl fullWidth hiddenLabel>
         <FilledInput
           classes={{ root: classes.input }}
