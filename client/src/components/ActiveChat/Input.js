@@ -45,6 +45,16 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
     event.preventDefault();
     const form = event.currentTarget;
     const formElements = form.elements;
+    const attachments = Promise.all(images.map(async (image) => {
+      const imageData = new FormData();
+      imageData.append("file", image);
+      imageData.append("upload_preset", "ogktzp5i");
+      const response = await fetch("https://api.cloudinary.com/v1_1/dhqlxce9z/image/upload", {
+          method: "POST",
+          body: imageData
+        });
+      return response.json();
+    }));
     // add sender user info if posting to a brand new convo, so that the other user will have access to username, profile pic, etc.
     const reqBody = {
       text: formElements.text.value,
