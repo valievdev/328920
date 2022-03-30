@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, FormControl, FilledInput, InputAdornment } from '@material-ui/core';
+import { Box, IconButton, FormControl, FilledInput, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
 
@@ -29,10 +29,16 @@ const useStyles = makeStyles(() => ({
 const Input = ({ otherUser, conversationId, user, postMessage }) => {
   const classes = useStyles();
   const [text, setText] = useState('');
+  const [images, setImages] = useState([]);
 
   const handleChange = (event) => {
     setText(event.target.value);
   };
+
+  const handleUploadImage = (event) => {
+    const image = event.target.files[0];
+    setImages(prevImages => [...prevImages, image]);
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -62,7 +68,19 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
           endAdornment={
             <Box classes={{ root: classes.inputIcons }} className="inputIcons">
               <InputAdornment position="end">
+              <IconButton
+                variant="contained"
+                component="label"
+              >
                 <FileCopyOutlinedIcon />
+                <input
+                  type="file"
+                  hidden
+                  multiple
+                  onChange={handleUploadImage} 
+                  accept="image/*"
+                />
+              </IconButton>
               </InputAdornment>
             </Box>
           }
