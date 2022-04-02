@@ -10,9 +10,14 @@ const useStyles = makeStyles(() => ({
 						"10vw"
 					:
 						"12vw",
+
 			objectFit: "cover",
 			borderRadius: props => props.borderRadius,
-			marginRight: props => props.attachmentLen > 1 ?
+			marginRight: props => !props.isSenderBubble && props.attachmentLen > 1 ?
+				10
+			:
+				0,
+			marginLeft: props => props.isSenderBubble && props.attachmentLen > 1 ?
 				10
 			:
 				0
@@ -32,7 +37,7 @@ const calculateBorderRadius = (isSenderBubble, withMessage, attachmentLen) => {
 
 const ChatAttachment = ({ url, isSenderBubble, withMessage, attachmentLen }) => {
 	const borderRadius = calculateBorderRadius(isSenderBubble, withMessage, attachmentLen);
-	const classes = useStyles({borderRadius, attachmentLen, withMessage});
+	const classes = useStyles({borderRadius, attachmentLen, withMessage, isSenderBubble});
 
 	return (
 			<img 
