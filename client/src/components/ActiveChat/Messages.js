@@ -8,7 +8,6 @@ const Messages = (props) => {
   return (
     <Box>
       {messages.map((message) => {
-        console.log(message);
         const time = new Date(message.createdAt).toLocaleTimeString('en-us', {timeStyle: 'short'});
         return message.senderId === userId ? (
           <SenderBubble 
