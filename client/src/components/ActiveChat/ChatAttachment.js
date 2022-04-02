@@ -1,17 +1,21 @@
 import { makeStyles } from '@material-ui/core/styles';
 
+export const useImageStyles = makeStyles(() => ({
+	root: {
+		width: "12vw",
+		height: props => props.attachmentLen > 1 ? 
+				"8vw"
+			:
+				props.withMessage ? 
+					"10vw"
+				:
+					"12vw",
+		objectFit: "cover",
+	}
+}))
+
 const useStyles = makeStyles(() => ({
 		root : {
-			width: "12vw",
-			height: props => props.attachmentLen > 1 ? 
-					"8vw"
-				:
-					props.withMessage ? 
-						"10vw"
-					:
-						"12vw",
-
-			objectFit: "cover",
 			borderRadius: props => props.borderRadius,
 			marginRight: props => !props.isSenderBubble && props.attachmentLen > 1 ?
 				10
@@ -37,12 +41,13 @@ const calculateBorderRadius = (isSenderBubble, withMessage, attachmentLen) => {
 
 const ChatAttachment = ({ url, isSenderBubble, withMessage, attachmentLen }) => {
 	const borderRadius = calculateBorderRadius(isSenderBubble, withMessage, attachmentLen);
-	const classes = useStyles({borderRadius, attachmentLen, withMessage, isSenderBubble});
+	const classes = useStyles({borderRadius, attachmentLen, isSenderBubble});
+	const imageStyles = useImageStyles({attachmentLen, withMessage});
 
 	return (
 			<img 
 				src={url}
-				className={classes.root}
+				className={`${classes.root} ${imageStyles.root}`}
 				alt="Chat Attachment" 
 				/>
 	)

@@ -30,23 +30,18 @@ const useStyles = makeStyles(() => ({
 const Input = ({ otherUser, conversationId, user, postMessage }) => {
   const classes = useStyles();
   const [text, setText] = useState('');
-  const [images, setImages] = useState([]);
+  const [imageURLS, setImageURLS] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
 
   const handleChange = (event) => {
     setText(event.target.value);
   };
 
-  const handleUploadImage = (event) => {
-    const images = event.target.files;
-    setImages(prevImages => [...prevImages, ...images]);
-  }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const formElements = form.elements;
+  const handleUploadImage = async (event) => {
+    const newImages = Array.from(event.target.files);
+    setImagePreviews(prevImages => [...prevImages, ...newImages])
     const attachments = await Promise.all(
-      images.map( async (image) => {
+      newImages.map(async (image) => {
         const imageData = new FormData();
         imageData.append("file", image);
         imageData.append("upload_preset", "ogktzp5i");
@@ -58,22 +53,31 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
         .then(data => data.secure_url);
       })
     );
+    setImageURLS(prevImages => [...prevImages, ...attachments]);}
+    
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formElements = form.elements;
+    
     // add sender user info if posting to a brand new convo, so that the other user will have access to username, profile pic, etc.
     const reqBody = {
       text: formElements.text.value,
       recipientId: otherUser.id,
       conversationId,
       sender: conversationId ? null : user,
-      attachments: attachments
+      attachments: imageURLS
     };
     await postMessage(reqBody);
     setText('');
-    setImages([]);
+    setImageURLS([]);
+    setImagePreviews([]);
   };
 
   return (
     <form className={classes.root} onSubmit={handleSubmit}>
-      {images.length > 0 && <ImagePreview images={images} />}
+      {imagePreviews.length > 0 && <ImagePreview images={imagePreviews} />}
       <FormControl fullWidth hiddenLabel>
         <FilledInput
           classes={{ root: classes.input }}
