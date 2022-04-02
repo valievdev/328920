@@ -35,7 +35,7 @@ const useStyles = makeStyles(() => ({
     width: 'fit-content',
     background: '#EFF5F8',
     borderRadius: props => props.attachmentLen === 1 ? 
-      '0 0 10px 10px'
+      '0 0 0 10px'
     :
       '10px 10px 0 10px',
     marginLeft: 'auto',
