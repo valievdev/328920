@@ -14,16 +14,16 @@ const useStyles = makeStyles(() => ({
     backgroundColor: '#F4F6FA',
     borderRadius: 8,
     marginBottom: 20,
-    "&:hover .inputIcons": {
-      color: "#8A8A8A",
+    '&:hover .inputIcons': {
+      color: '#8A8A8A',
     },
-    "&:focus-within .inputIcons": {
-      color: "#8A8A8A",
+    '&:focus-within .inputIcons': {
+      color: '#8A8A8A',
     },
   },
   inputIcons: {
     marginRight: 8,
-    color: "#CAD5E3",
+    color: '#C3CEDB',
   }
 }));
 
@@ -112,19 +112,20 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
           endAdornment={
             <Box classes={{ root: classes.inputIcons }} className="inputIcons">
               <InputAdornment position="end">
-              <IconButton
-                variant="contained"
-                component="label"
-              >
-                <FileCopyOutlinedIcon />
-                <input
-                  type="file"
-                  hidden
-                  multiple
-                  onChange={handleUploadImage} 
-                  accept="image/*"
-                />
-              </IconButton>
+                <IconButton
+                  variant="contained"
+                  component="label"
+                  color="inherit"
+                >
+                  <FileCopyOutlinedIcon />
+                  <input
+                    type="file"
+                    hidden
+                    multiple
+                    onChange={handleUploadImage} 
+                    accept="image/*"
+                  />
+                </IconButton>
               </InputAdornment>
             </Box>
           }
