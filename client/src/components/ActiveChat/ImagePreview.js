@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 
 const withMessage = false;
 
-const ImagePreview = memo(({ images }) => {
+const ImagePreview = memo(({ images, onRemoveImage }) => {
 
 	const attachmentLen = images.length;
 
@@ -47,7 +47,11 @@ const ImagePreview = memo(({ images }) => {
 						alt="Preview"
 						key={idx} 
 						>
-						<IconButton aria-label="cancel image upload" size="small">
+						<IconButton 
+							aria-label="cancel image upload"
+							onClick={() => onRemoveImage(idx)} 
+							size="small"
+							>
 							<ClearIcon />
 						</IconButton>
 					</Box>
@@ -55,5 +59,5 @@ const ImagePreview = memo(({ images }) => {
 			)}
 		</Box>
 	)
-})
+});
 export default ImagePreview;

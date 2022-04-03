@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Box, IconButton, FormControl, FilledInput, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
@@ -37,15 +37,35 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
   const handleChange = (event) => {
     setText(event.target.value);
   };
+
+  const handleRemoveImage = useCallback(async idx => {
+    const deleteToken = imageDeleteTokens.current[idx];
+    await deleteImage(deleteToken);
+    setImageURLs(prevURLs => {
+      const newURLs = [...prevURLs];
+      newURLs.splice(idx, 1);
+      return newURLs;
+    });
+    setImagePreviews(prevData => {
+      const newData = [...prevData];
+      newData.splice(idx, 1);
+      return newData;
+    });
+    imageDeleteTokens.current.splice(idx, 1);
+  }, [imageDeleteTokens]);
+
+  const deleteImage = token => (
+      fetch(`https://api.cloudinary.com/v1_1/dhqlxce9z/delete_by_token?token=${token}`, {
+        method: "POST",
+    })
+  )
   
   useEffect(() => {
     // delete images from cloudinary if user abandons chat before sending
     return async () => {
       await Promise.all( 
         imageDeleteTokens.current.map(token => 
-          fetch(`https://api.cloudinary.com/v1_1/dhqlxce9z/delete_by_token?token=${token}`, {
-              method: "POST",
-          })
+            deleteImage(token)
         )
       );
     }
@@ -100,7 +120,9 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
 
   return (
     <form className={classes.root} onSubmit={handleSubmit}>
-      {imagePreviews.length > 0 && <ImagePreview images={imagePreviews} />}
+      { imagePreviews.length > 0 && 
+        <ImagePreview images={imagePreviews} onRemoveImage={handleRemoveImage} /> 
+      }
       <FormControl fullWidth hiddenLabel>
         <FilledInput
           classes={{ root: classes.input }}
