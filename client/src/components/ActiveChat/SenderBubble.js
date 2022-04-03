@@ -51,7 +51,7 @@ const useStyles = makeStyles(() => ({
     fontWeight: 'bold',
     letterSpacing: -0.2,
     padding: 8,
-    color: "#7593B5",
+    color: '#7593B5',
     textAlign: props => props.attachmentLen === 1 ?
         'center'
       :
