@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Box, IconButton, FormControl, FilledInput, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
@@ -31,6 +31,7 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
   const classes = useStyles();
   const [text, setText] = useState('');
   const [imageURLs, setImageURLs] = useState([]);
+  const imageDeleteTokens = useRef([]);
   const [imagePreviews, setImagePreviews] = useState([]);
 
   const handleChange = (event) => {
@@ -38,21 +39,22 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
   };
   
   useEffect(() => {
-    // delete images if user abandons chat before sending
+    // delete images from cloudinary if user abandons chat before sending
     return async () => {
-      const deleteTokens = imageURLs.map(image => image.deleteToken);
-      await Promise.all(deleteTokens.map(token => 
-        fetch(`https://api.cloudinary.com/v1_1/dhqlxce9z/delete_by_token?token=${token}`, {
-            method: "POST",
-        })
-      ));
+      await Promise.all( 
+        imageDeleteTokens.current.map(token => 
+          fetch(`https://api.cloudinary.com/v1_1/dhqlxce9z/delete_by_token?token=${token}`, {
+              method: "POST",
+          })
+        )
+      );
     }
-  })
+  }, []);
 
   const handleUploadImage = async (event) => {
     // Display image preview from client-side file
     const newImages = Array.from(event.target.files);
-    setImagePreviews(prevImages => [...prevImages, ...newImages])
+    setImagePreviews(prevImages => [...prevImages, ...newImages]);
 
     // Upload images to cloudinary as user uploads 
     const attachments = await Promise.all(
@@ -65,11 +67,10 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
             body: imageData
         })
         .then(res => res.json())
-        .then(data => (
-          { 
-            url: data.secure_url,
-            deleteToken: data.delete_token 
-          }))
+        .then(data => {
+            imageDeleteTokens.current.push(data.delete_token);
+            return data.secure_url;
+          })
         .catch(err => console.error(err));
       })
     );
@@ -81,9 +82,6 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
     event.preventDefault();
     const form = event.currentTarget;
     const formElements = form.elements;
-
-    // Sort out delete tokens from image urls
-    const attachments = imageURLs.map(image => image.url);
     
     // add sender user info if posting to a brand new convo, so that the other user will have access to username, profile pic, etc.
     const reqBody = {
@@ -91,12 +89,13 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
       recipientId: otherUser.id,
       conversationId,
       sender: conversationId ? null : user,
-      attachments: attachments
+      attachments: imageURLs
     };
     await postMessage(reqBody);
     setText('');
     setImageURLs([]);
     setImagePreviews([]);
+    imageDeleteTokens.current = [];
   };
 
   return (
