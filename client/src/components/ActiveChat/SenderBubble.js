@@ -38,11 +38,12 @@ const useStyles = makeStyles(() => ({
       '0 0 0 10px'
     :
       '10px 10px 0 10px',
-    marginLeft: 'auto',
-    marginTop: props => props.attachmentLen > 1 ? 
-      '10px'
+
+    margin: props => props.attachmentLen > 1 ? 
+      '10px 0 10px auto'
     :
       '0',
+    marginLeft: 'auto',
     
   },
   text: {

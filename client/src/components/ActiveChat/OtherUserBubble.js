@@ -53,6 +53,10 @@ const useStyles = makeStyles(() => ({
     color: '#FFFFFF',
     letterSpacing: -0.2,
     padding: 8,
+    textAlign: props => props.attachmentLen === 1 ?
+        'center'
+      :
+        'left'
   },
 }));
 

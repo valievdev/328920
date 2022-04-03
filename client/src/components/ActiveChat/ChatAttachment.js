@@ -11,16 +11,16 @@ export const useImageStyles = makeStyles(() => ({
 				:
 					"12vw",
 		objectFit: "cover",
+		marginRight: props => !props.isSenderBubble && props.attachmentLen > 1 ?
+			10
+		:
+			0,
 	}
 }))
 
 const useStyles = makeStyles(() => ({
 		root : {
 			borderRadius: props => props.borderRadius,
-			marginRight: props => !props.isSenderBubble && props.attachmentLen > 1 ?
-				10
-			:
-				0,
 			marginLeft: props => props.isSenderBubble && props.attachmentLen > 1 ?
 				10
 			:
