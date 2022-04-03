@@ -1,16 +1,32 @@
-import { Box, makeStyles } from "@material-ui/core";
-import { memo } from "react";
-import { useImageStyles } from "./ChatAttachment";
+import { alpha, Box, IconButton, makeStyles } from '@material-ui/core';
+import { memo } from 'react';
+import { useImageStyles } from './ChatAttachment';
+import ClearIcon from '@material-ui/icons/Clear';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
 	root: {
-		display: "flex",
-		flexDirection: "row",
-		marginBottom: "2vh",
-		"& img": {
-			borderRadius: 10
+		display: 'flex',
+		flexDirection: 'row',
+		marginBottom: '2vh',
+		'& div': {
+			borderRadius: 20,
+			backgroundSize: 'cover',
+			maxWidth: '12vw',
 		},
+		'& button': {
+			backgroundColor: alpha('#fff', 0.6),
+			color: 'black',
+			display: 'flex',
+			height: 'fit-content',
+			margin: '2px 4px auto auto',
+			'&:hover': {
+				backgroundColor: alpha(theme.palette.secondary.main, 0.4),
+			}
+		}
 	},
+	cancelBtn: {
+
+	}
 }));
 
 const withMessage = false;
@@ -25,12 +41,17 @@ const ImagePreview = memo(({ images }) => {
 	return (
 		<Box className={classes.root}>
 			{images.map((image, idx) => 
-				<img 
-					src={URL.createObjectURL(image)}
-					className={imageStyles.root}
-					alt="Preview"
-					key={idx} 
-					/>
+				<>
+					<Box sx={{backgroundImage: `url(${URL.createObjectURL(image)})`}}
+						className={imageStyles.root}
+						alt="Preview"
+						key={idx} 
+						>
+						<IconButton aria-label="cancel image upload" size="small">
+							<ClearIcon />
+						</IconButton>
+					</Box>
+				</>
 			)}
 		</Box>
 	)
