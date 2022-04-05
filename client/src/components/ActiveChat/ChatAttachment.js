@@ -3,7 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useImageStyles = makeStyles(() => ({
 	root: {
 		width: '12vw',
-		height: props => props.attachmentLen > 1 ? 
+		height: props => 
+			props.attachmentLen > 1 ? 
 				'8vw'
 			:
 				props.withMessage ? 
@@ -11,20 +12,24 @@ export const useImageStyles = makeStyles(() => ({
 				:
 					'12vw',
 		objectFit: 'cover',
-		marginRight: props => !props.isSenderBubble && props.attachmentLen > 1 ?
-			10
-		:
-			0,
+		marginRight: props =>
+			!props.isSenderBubble &&
+			props.attachmentLen > 1 ?
+				10
+			:
+				0,
 	}
 }))
 
 const useStyles = makeStyles(() => ({
 		root : {
 			borderRadius: props => props.borderRadius,
-			marginLeft: props => props.isSenderBubble && props.attachmentLen > 1 ?
-				10
-			:
-				0
+			marginLeft: props => 
+				props.isSenderBubble &&
+				props.attachmentLen > 1 ?
+					10
+				:
+					0
 		},
 }));
 
