@@ -41,21 +41,19 @@ const ImagePreview = memo(({ images, onRemoveImage }) => {
 	return (
 		<Box className={classes.root}>
 			{images.map((image, idx) => 
-				<>
-					<Box sx={{backgroundImage: `url(${URL.createObjectURL(image)})`}}
-						className={imageStyles.root}
-						alt="Preview"
-						key={idx} 
+				<Box sx={{backgroundImage: `url(${URL.createObjectURL(image)})`}}
+					className={imageStyles.root}
+					alt="Preview"
+					key={idx} 
+					>
+					<IconButton 
+						aria-label="cancel image upload"
+						onClick={() => onRemoveImage(idx)} 
+						size="small"
 						>
-						<IconButton 
-							aria-label="cancel image upload"
-							onClick={() => onRemoveImage(idx)} 
-							size="small"
-							>
-							<ClearIcon />
-						</IconButton>
-					</Box>
-				</>
+						<ClearIcon />
+					</IconButton>
+				</Box>
 			)}
 		</Box>
 	)
