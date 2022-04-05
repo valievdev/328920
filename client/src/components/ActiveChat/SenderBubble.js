@@ -73,15 +73,15 @@ const SenderBubble = ({ time, text, attachments }) => {
       <Box className={classes.messageWrapper}>
       <Typography className={classes.date}>{time}</Typography>
           <Box className={classes.attachmentWrapper}>
-            { attachments.map((attachment, key) => 
+            {attachments.map(attachment => 
               <ChatAttachment 
-                key={key}
-                url={attachment}
+                key={attachment.id}
+                url={attachment.url}
                 withMessage={text.length > 0 && true} 
                 attachmentLen={attachmentLen}
                 isSenderBubble
                 />
-            )}
+          )}
           </Box>
           { text.length > 0 &&
             <Box className={classes.bubble}>

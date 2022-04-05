@@ -82,14 +82,14 @@ const OtherUserBubble = ({ text, attachments, time, otherUser }) => {
         </Typography>
         <Box className={classes.messageWrapper} sx={{display: "flex", flexDirection: "column"}}>
           <Box className={classes.attachmentWrapper}>
-            { attachments.map((attachment, key) => 
+            {attachments.map(attachment =>  
               <ChatAttachment 
-                key={key}
-                url={attachment}
+                key={attachment.id}
+                url={attachment.url}
                 withMessage={text.length > 0 && true} 
                 attachmentLen={attachmentLen}
                 />
-            )}
+              )}
           </Box>
           { text.length > 0 &&
             <Box className={classes.bubble}>

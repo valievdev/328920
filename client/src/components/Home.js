@@ -94,18 +94,22 @@ const Home = ({ user, logout }) => {
     (data) => {
       // if sender isn't null, that means the message needs to be put in a brand new convo
       const { message, sender = null } = data;
+      const parsedMessage = {
+        ...message,
+        attachments: message.attachments.map(attachment => JSON.parse(attachment))
+      };
       if (sender !== null) {
         const newConvo = {
           id: message.conversationId,
           otherUser: sender,
-          messages: [message],
+          messages: [parsedMessage],
         };
-        newConvo.latestMessageText = message.text;
+        newConvo.latestMessageText = parsedMessage.text;
         setConversations((prev) => [newConvo, ...prev]);
       } else {
         setConversations((prevConv) => prevConv.map((thread) => {
           if (thread.id === message.conversationId) {
-            return {...thread, messages: [...thread.messages, message], latestMessageText: message.text}
+            return {...thread, messages: [...thread.messages, parsedMessage], latestMessageText: parsedMessage.text}
           }
           return thread;
         })
@@ -184,8 +188,17 @@ const Home = ({ user, logout }) => {
         setConversations(() => data.map((conversation) => {
           const sortedMessages = conversation.messages.sort((messageA, messageB) => {
             return new Date(messageA.updatedAt).getTime() - new Date(messageB.updatedAt).getTime()
-          })
-          return {...conversation, messages: sortedMessages}
+          });
+          const parsedMessages = sortedMessages.map(message => {
+            return {
+                ...message, 
+                attachments: message.attachments ? 
+                    message.attachments.map(attachment => JSON.parse(attachment))
+                  :
+                    []
+              }
+          });
+          return {...conversation, messages: parsedMessages}
         })
       )
       } catch (error) {

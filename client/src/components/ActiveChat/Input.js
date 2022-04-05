@@ -93,7 +93,10 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
             }
           });
           imageDeleteTokens.current.push(res.data.delete_token);
-          return res.data.secure_url;
+          return { 
+            url: res.data.secure_url,
+            id: res.data.public_id
+          }
         } catch (error) {
           console.error(error);
         }
