@@ -3,6 +3,7 @@ import { Box, IconButton, FormControl, FilledInput, InputAdornment } from '@mate
 import { makeStyles } from '@material-ui/core/styles';
 import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
 import ImagePreview from './ImagePreview';
+import axios from 'axios';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -51,8 +52,11 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
   }, [imageDeleteTokens]);
 
   const deleteImage = token => (
-      fetch(`${process.env.REACT_APP_CLOUDINARY_ENDPOINT}/delete_by_token?token=${token}`, {
-        method: "POST",
+    axios.post(`${process.env.REACT_APP_CLOUDINARY_ENDPOINT}/delete_by_token?token=${token}`, {}, {
+      transformRequest: (data, headers) => {
+        delete headers["x-access-token"];
+        return data;
+      }
     })
   )
   
@@ -76,16 +80,17 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
     const attachments = await Promise.all(
       newImages.map(async (image) => {
         const imageData = new FormData();
-        imageData.append("file", image);
         imageData.append("upload_preset", "ogktzp5i");
-        return fetch(`${process.env.REACT_APP_CLOUDINARY_ENDPOINT}/image/upload`, {
-            method: "POST",
-            body: imageData
+        imageData.append("file", image);
+        axios.post(`${process.env.REACT_APP_CLOUDINARY_ENDPOINT}/image/upload`, imageData, {
+          transformRequest: (data, headers) => {
+            delete headers["x-access-token"];
+            return data;
+          }
         })
-        .then(res => res.json())
-        .then(data => {
-            imageDeleteTokens.current.push(data.delete_token);
-            return data.secure_url;
+        .then(res => {
+            imageDeleteTokens.current.push(res.data.delete_token);
+            return res.data.secure_url;
           })
         .catch(err => console.error(err));
       })
