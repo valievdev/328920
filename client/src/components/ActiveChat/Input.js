@@ -82,17 +82,21 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
         const imageData = new FormData();
         imageData.append("upload_preset", "ogktzp5i");
         imageData.append("file", image);
-        const res = await axios.post(
-            `${process.env.REACT_APP_CLOUDINARY_ENDPOINT}/image/upload`,
-            imageData, 
-          {
-            transformRequest: (data, headers) => {
-              delete headers["x-access-token"];
-              return data;
-          }
-        });
-        imageDeleteTokens.current.push(res.data.delete_token);
-        return res.data.secure_url;
+        try {
+          const res = await axios.post(
+              `${process.env.REACT_APP_CLOUDINARY_ENDPOINT}/image/upload`,
+              imageData, 
+            {
+              transformRequest: (data, headers) => {
+                delete headers["x-access-token"];
+                return data;
+            }
+          });
+          imageDeleteTokens.current.push(res.data.delete_token);
+          return res.data.secure_url;
+        } catch (error) {
+          console.error(error);
+        }
       })
     );
     setImageURLs(prevImages => [...prevImages, ...attachments]);
