@@ -51,7 +51,7 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
   }, [imageDeleteTokens]);
 
   const deleteImage = token => (
-      fetch(`https://api.cloudinary.com/v1_1/dhqlxce9z/delete_by_token?token=${token}`, {
+      fetch(`${process.env.REACT_APP_CLOUDINARY_ENDPOINT}/delete_by_token?token=${token}`, {
         method: "POST",
     })
   )
@@ -78,7 +78,7 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
         const imageData = new FormData();
         imageData.append("file", image);
         imageData.append("upload_preset", "ogktzp5i");
-        return fetch("https://api.cloudinary.com/v1_1/dhqlxce9z/image/upload", {
+        return fetch(`${process.env.REACT_APP_CLOUDINARY_ENDPOINT}/image/upload`, {
             method: "POST",
             body: imageData
         })
