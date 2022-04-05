@@ -41,16 +41,12 @@ const Input = ({ otherUser, conversationId, user, postMessage }) => {
   const handleRemoveImage = useCallback(async idx => {
     const deleteToken = imageDeleteTokens.current[idx];
     await deleteImage(deleteToken);
-    setImageURLs(prevURLs => {
-      const newURLs = [...prevURLs];
-      newURLs.splice(idx, 1);
-      return newURLs;
-    });
-    setImagePreviews(prevData => {
-      const newData = [...prevData];
-      newData.splice(idx, 1);
-      return newData;
-    });
+    setImageURLs(prevURLs => 
+      prevURLs.filter((url, prevIdx) => prevIdx !== idx)
+    );
+    setImagePreviews(prevData => 
+      prevData.filter((data, prevIdx) => prevIdx !== idx)
+    );
     imageDeleteTokens.current.splice(idx, 1);
   }, [imageDeleteTokens]);
 
