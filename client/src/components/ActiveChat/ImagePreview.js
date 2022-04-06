@@ -41,7 +41,7 @@ const ImagePreview = memo(({ images, onRemoveImage }) => {
           sx={{ backgroundImage: `url(${URL.createObjectURL(image)})` }}
           className={imageStyles.root}
           alt="Preview"
-          key={idx}
+          key={image.name + image.lastModified}
         >
           <IconButton
             aria-label="cancel image upload"
