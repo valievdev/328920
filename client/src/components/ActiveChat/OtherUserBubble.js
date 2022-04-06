@@ -1,10 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Typography, Avatar } from '@material-ui/core';
+import ChatAttachment from './ChatAttachment';
 
 const useStyles = makeStyles(() => ({
   root: {
     display: 'flex',
+    marginTop: '25px',
   },
   avatar: {
     height: 30,
@@ -18,9 +20,22 @@ const useStyles = makeStyles(() => ({
     fontWeight: 'bold',
     marginBottom: 5,
   },
+  messageWrapper: {
+    display: 'flex',
+    flexDirection: (props) =>
+      props.attachmentLen < 2 ? 'column' : 'column-reverse',
+  },
+  attachmentWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
   bubble: {
+    minWidth: (props) => (props.attachmentLen === 1 ? '12vw' : 'auto'),
+    width: 'fit-content',
     backgroundImage: 'linear-gradient(225deg, #6CC1FF 0%, #3A8DFF 100%)',
-    borderRadius: '0 10px 10px 10px',
+    borderRadius: (props) =>
+      props.attachmentLen === 1 ? '0 0 10px 10px' : '0 10px 10px 10px',
+    marginBottom: (props) => (props.attachmentLen > 1 ? '10px' : '0'),
   },
   text: {
     fontSize: 14,
@@ -28,11 +43,13 @@ const useStyles = makeStyles(() => ({
     color: '#FFFFFF',
     letterSpacing: -0.2,
     padding: 8,
+    textAlign: (props) => (props.attachmentLen === 1 ? 'center' : 'left'),
   },
 }));
 
-const OtherUserBubble = ({ text, time, otherUser }) => {
-  const classes = useStyles();
+const OtherUserBubble = ({ text, attachments, time, otherUser }) => {
+  const attachmentLen = attachments.length;
+  const classes = useStyles({ attachmentLen });
 
   return (
     <Box className={classes.root}>
@@ -45,8 +62,25 @@ const OtherUserBubble = ({ text, time, otherUser }) => {
         <Typography className={classes.usernameDate}>
           {otherUser.username} {time}
         </Typography>
-        <Box className={classes.bubble}>
-          <Typography className={classes.text}>{text}</Typography>
+        <Box
+          className={classes.messageWrapper}
+          sx={{ display: 'flex', flexDirection: 'column' }}
+        >
+          <Box className={classes.attachmentWrapper}>
+            {attachments.map((attachment) => (
+              <ChatAttachment
+                key={attachment.id}
+                url={attachment.url}
+                withMessage={text.length > 0 && true}
+                attachmentLen={attachmentLen}
+              />
+            ))}
+          </Box>
+          {text.length > 0 && (
+            <Box className={classes.bubble}>
+              <Typography className={classes.text}>{text}</Typography>
+            </Box>
+          )}
         </Box>
       </Box>
     </Box>

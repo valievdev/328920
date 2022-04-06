@@ -1,16 +1,16 @@
-import React, { useCallback, useEffect, useState, useContext } from "react";
-import axios from "axios";
-import { useHistory } from "react-router-dom";
-import { Grid, CssBaseline, Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useCallback, useEffect, useState, useContext } from 'react';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
+import { Grid, CssBaseline, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
-import { SidebarContainer } from "../components/Sidebar";
-import { ActiveChat } from "../components/ActiveChat";
-import { SocketContext } from "../context/socket";
+import { SidebarContainer } from '../components/Sidebar';
+import { ActiveChat } from '../components/ActiveChat';
+import { SocketContext } from '../context/socket';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: "100vh",
+    height: '100vh',
   },
 }));
 
@@ -50,12 +50,12 @@ const Home = ({ user, logout }) => {
   };
 
   const saveMessage = async (body) => {
-    const { data } = await axios.post("/api/messages", body);
+    const { data } = await axios.post('/api/messages', body);
     return data;
   };
 
   const sendMessage = (data, body) => {
-    socket.emit("new-message", {
+    socket.emit('new-message', {
       message: data.message,
       recipientId: body.recipientId,
       sender: data.sender,
@@ -79,40 +79,55 @@ const Home = ({ user, logout }) => {
 
   const addNewConvo = useCallback(
     (recipientId, message) => {
-      setConversations((prevConvs) => 
+      setConversations((prevConvs) =>
         prevConvs.map((thread) => {
           if (thread.otherUser.id === recipientId) {
-            return {...thread, messages: [...thread.messages, message], id: message.conversationId}
+            return {
+              ...thread,
+              messages: [...thread.messages, message],
+              id: message.conversationId,
+            };
           }
-          return thread
+          return thread;
         })
-      )
+      );
     },
-    [setConversations, conversations],
+    [setConversations, conversations]
   );
   const addMessageToConversation = useCallback(
     (data) => {
       // if sender isn't null, that means the message needs to be put in a brand new convo
       const { message, sender = null } = data;
+      const parsedMessage = {
+        ...message,
+        attachments: message.attachments.map((attachment) =>
+          JSON.parse(attachment)
+        ),
+      };
       if (sender !== null) {
         const newConvo = {
           id: message.conversationId,
           otherUser: sender,
-          messages: [message],
+          messages: [parsedMessage],
         };
-        newConvo.latestMessageText = message.text;
+        newConvo.latestMessageText = parsedMessage.text;
         setConversations((prev) => [newConvo, ...prev]);
       } else {
-        setConversations((prevConv) => prevConv.map((thread) => {
-          if (thread.id === message.conversationId) {
-            return {...thread, messages: [...thread.messages, message], latestMessageText: message.text}
-          }
-          return thread;
-        })
-        )
+        setConversations((prevConv) =>
+          prevConv.map((thread) => {
+            if (thread.id === message.conversationId) {
+              return {
+                ...thread,
+                messages: [...thread.messages, parsedMessage],
+                latestMessageText: parsedMessage.text,
+              };
+            }
+            return thread;
+          })
+        );
       }
     },
-    [setConversations, conversations],
+    [setConversations, conversations]
   );
 
   const setActiveChat = (username) => {
@@ -129,7 +144,7 @@ const Home = ({ user, logout }) => {
         } else {
           return convo;
         }
-      }),
+      })
     );
   }, []);
 
@@ -143,7 +158,7 @@ const Home = ({ user, logout }) => {
         } else {
           return convo;
         }
-      }),
+      })
     );
   }, []);
 
@@ -151,16 +166,16 @@ const Home = ({ user, logout }) => {
 
   useEffect(() => {
     // Socket init
-    socket.on("add-online-user", addOnlineUser);
-    socket.on("remove-offline-user", removeOfflineUser);
-    socket.on("new-message", addMessageToConversation);
+    socket.on('add-online-user', addOnlineUser);
+    socket.on('remove-offline-user', removeOfflineUser);
+    socket.on('new-message', addMessageToConversation);
 
     return () => {
       // before the component is destroyed
       // unbind all event handlers used in this component
-      socket.off("add-online-user", addOnlineUser);
-      socket.off("remove-offline-user", removeOfflineUser);
-      socket.off("new-message", addMessageToConversation);
+      socket.off('add-online-user', addOnlineUser);
+      socket.off('remove-offline-user', removeOfflineUser);
+      socket.off('new-message', addMessageToConversation);
     };
   }, [addMessageToConversation, addOnlineUser, removeOfflineUser, socket]);
 
@@ -172,22 +187,38 @@ const Home = ({ user, logout }) => {
       setIsLoggedIn(true);
     } else {
       // If we were previously logged in, redirect to login instead of register
-      if (isLoggedIn) history.push("/login");
-      else history.push("/register");
+      if (isLoggedIn) history.push('/login');
+      else history.push('/register');
     }
   }, [user, history, isLoggedIn]);
 
   useEffect(() => {
     const fetchConversations = async () => {
       try {
-        const { data } = await axios.get("/api/conversations");
-        setConversations(() => data.map((conversation) => {
-          const sortedMessages = conversation.messages.sort((messageA, messageB) => {
-            return new Date(messageA.updatedAt).getTime() - new Date(messageB.updatedAt).getTime()
+        const { data } = await axios.get('/api/conversations');
+        setConversations(() =>
+          data.map((conversation) => {
+            const sortedMessages = conversation.messages.sort(
+              (messageA, messageB) => {
+                return (
+                  new Date(messageA.updatedAt).getTime() -
+                  new Date(messageB.updatedAt).getTime()
+                );
+              }
+            );
+            const parsedMessages = sortedMessages.map((message) => {
+              return {
+                ...message,
+                attachments: message.attachments
+                  ? message.attachments.map((attachment) =>
+                      JSON.parse(attachment)
+                    )
+                  : [],
+              };
+            });
+            return { ...conversation, messages: parsedMessages };
           })
-          return {...conversation, messages: sortedMessages}
-        })
-      )
+        );
       } catch (error) {
         console.error(error);
       }
